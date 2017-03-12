@@ -26,13 +26,15 @@ terminal String ID, ENTERO, DECIMAL;
 terminal TokenC3D MAS, MENOS, MULT, DIV, POT, PAR_IZQ, PAR_DER, IGUAL, DIF, MAYQ, MENQ, MAYOIQ, MENOIQ, CLOGY, CLOGO, CLOGN;
 nonterminal NodoC3D inicial, expresion;
 
-precedence left MAS, MENOS;
-precedence left MULT, DIV;
-precedence left MAYOIQ, MENOIQ;
-precedence left MAYQ, MENQ;
 precedence left CLOGN;
 precedence left CLOGO;
 precedence left CLOGY; 
+precedence left MAYOIQ, MENOIQ;
+precedence left MAYQ, MENQ;
+precedence left DIF;
+precedence left IGUAL;
+precedence left MAS, MENOS;
+precedence left MULT, DIV;
 precedence right POT; 
 
 start with inicial;
@@ -127,21 +129,21 @@ expresion   ::= expresion:izq MAS expresion:der
                         ControlC3D.agregarC3D(c3d);
                         RESULT = new NodoC3D(temp); 
                     :}
-            |   expresion:izq LOGY expresion:der
+            |   expresion:izq CLOGY expresion:der
                     {: 
                         String temp = ControlC3D.generaTemp();
                         String c3d = temp + " = " + izq.getCad() + " && " + der.getCad() + ";\n";
                         ControlC3D.agregarC3D(c3d);
                         RESULT = new NodoC3D(temp); 
                     :}
-            |   expresion:izq LOGO expresion:der
+            |   expresion:izq CLOGO expresion:der
                     {: 
                         String temp = ControlC3D.generaTemp();
                         String c3d = temp + " = " + izq.getCad() + " || " + der.getCad() + ";\n";
                         ControlC3D.agregarC3D(c3d);
                         RESULT = new NodoC3D(temp); 
                     :}
-            |   LOGN expresion:exp 
+            |   CLOGN expresion:exp 
                     {: 
                         String temp = ControlC3D.generaTemp();
                         String c3d = temp + " = ! " + exp.getCad() + ";\n";
